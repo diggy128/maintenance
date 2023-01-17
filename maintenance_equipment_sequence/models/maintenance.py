@@ -117,6 +117,15 @@ class MaintenanceEquipment(models.Model):
         help='Equipment Code',
     )
 
+    def name_get(self):
+        result = []
+        for record in self:
+            if record.name and record.code:
+                result.append((record.id, '[' + record.code + '] ' + record.name))
+            else:
+                result.extend(super(MaintenanceEquipment, record).name_get())
+        return result
+
     @api.model
     def create(self, vals):
         equipment = super(MaintenanceEquipment, self).create(vals)
